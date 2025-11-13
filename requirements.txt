@@ -1,8 +1,0 @@
-ultralytics
-streamlit
-pillow
-numpy
-fastapi
-uvicorn
-python-multipart
-

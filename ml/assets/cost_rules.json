@@ -1,0 +1,6 @@
+{
+  "Minor": { "parts_usd": 200, "labor_h": 1.5, "paint_h": 0.5 },
+  "Moderate": { "parts_usd": 650, "labor_h": 4.0, "paint_h": 2.0 },
+  "Severe": { "parts_usd": 1800, "labor_h": 10.0, "paint_h": 4.0 }
+}
+
