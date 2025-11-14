@@ -8,9 +8,7 @@
   --border: #2a2a2a;
 }
 
-html, body, #root {
-  height: 100%;
-}
+html, body, #root { height: 100%; }
 
 body {
   margin: 0;
@@ -24,6 +22,11 @@ body {
   margin: 0 auto;
   padding: 28px 20px 60px;
   text-align: center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .title {
@@ -92,6 +95,9 @@ body {
 .preview {
   width: 100%;
   border-radius: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 .metric {
   font-weight: 700;

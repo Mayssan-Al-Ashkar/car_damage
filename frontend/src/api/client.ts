@@ -16,9 +16,11 @@ export const http = axios.create({
 
 export type PredictResponse = {
   classes: string[];
+  detections?: { class: string; confidence: number | null; each_cost_usd: number | null }[];
   counts: Record<string, number>;
   per_class_costs: Record<string, { count: number; range_text: string; min_each: number; max_each: number | null; open_ended: boolean }>;
   totals: { min: number; max: number | null; open_ended: boolean; currency: string };
+  annotated_image_b64?: string;
 };
 
 export async function predict(image: File) {
@@ -33,6 +35,8 @@ export type CompareResponse = {
   after_counts: Record<string, number>;
   new_damage_counts: Record<string, number>;
   new_damage_costs: PredictResponse;
+  before_annotated_b64?: string;
+  after_annotated_b64?: string;
 };
 
 export async function compare(before: File, after: File) {

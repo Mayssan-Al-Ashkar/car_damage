@@ -6,6 +6,7 @@ from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 from ultralytics import YOLO
+import cv2
 import re
 import json
 import os
@@ -148,14 +149,26 @@ def detect_from_numpy(image_array: np.ndarray) -> Dict:
     model = load_model()
     results = model(image_array)
     if not results:
-        return {"classes": [], "annotated_image": image_array}
+        return {"classes": [], "confidences": [], "annotated_image": image_array}
     res = results[0]
     classes = []
+    confidences = []
     if res.boxes is not None and hasattr(res.boxes, "cls"):
         classes = [res.names[int(cls)] for cls in res.boxes.cls.tolist()]
-    annotated_bgr = res.plot()
-    annotated_rgb = annotated_bgr[:, :, ::-1]
-    return {"classes": classes, "annotated_image": annotated_rgb}
+        if hasattr(res.boxes, "conf") and res.boxes.conf is not None:
+            confidences = [float(c) for c in res.boxes.conf.tolist()]
+
+    # Draw boxes only (no labels/confidence)
+    annotated_bgr = image_array[:, :, ::-1].copy()  # convert RGB->BGR for OpenCV
+    if res.boxes is not None and hasattr(res.boxes, "xyxy"):
+        try:
+            for xyxy in res.boxes.xyxy.cpu().numpy():
+                x1, y1, x2, y2 = map(int, xyxy[:4])
+                cv2.rectangle(annotated_bgr, (x1, y1), (x2, y2), (255, 200, 0), 2)  # cyan-ish box
+        except Exception:
+            pass
+    annotated_rgb = annotated_bgr[:, :, ::-1]  # back to RGB
+    return {"classes": classes, "confidences": confidences, "annotated_image": annotated_rgb}
 
 
 def compare_before_after(before_img: np.ndarray, after_img: np.ndarray, price_map: Dict[str, str]) -> Dict:
