@@ -114,6 +114,37 @@ Run: `uvicorn ml.api:app --reload --port 8001`
 - POST `/compare` — form fields `before`, `after` (files)
   - Returns JSON with before/after counts, new-damage counts/costs, and annotated images as base64.
 
+### Pricing modes
+- Configure before starting the ML service:
+  - `PRICE_PROVIDER=rule | ml | hybrid` (default `rule`)
+  - `PRICE_BLEND_ALPHA=0.6` (only for `hybrid`: final = α·ML + (1–α)·rule)
+  - `COST_MULTIPLIER=0.6` (global scaler for rule/area pricing)
+  - Area scaling (rule path): `AREA_REF` (0.15), `AREA_MIN_SCALE` (0.25), `AREA_GAMMA` (0.7)
+
+When `ml`/`hybrid` is enabled, `/predict` includes:
+```json
+{
+  "totals_rule": { "min": 1234, "currency": "USD" },
+  "price": { "provider": "ml", "ml_usd": 1190.5, "rule_usd": 1234, "final_usd": 1190.5 }
+}
+```
+
+### Train ML price regressor (optional)
+Create a CSV `ml/data/claims.csv` with:
+```
+image_path,vehicle_type,total_usd
+C:\data\car\img001.jpg,car,1450
+```
+Train and save:
+```bash
+pip install -r ml/requirements.txt
+python -m ml.train_price_gbm --csv ml/data/claims.csv --out ml/models/price_gbm.pkl
+```
+Run ML with `PRICE_PROVIDER=ml` (or `hybrid`).
+
+### Swagger / OpenAPI
+- FastAPI docs at `http://127.0.0.1:8001/docs` (Swagger UI) and `/redoc`.
+
 ## Backend API (Laravel)
 
 - `POST /api/predict` — accepts `image` (file). Proxies to ML `/predict`, persists a “single” claim with original/annotated paths and totals, returns ML payload plus `claim_id`.
@@ -146,6 +177,15 @@ Run: `uvicorn ml.api:app --reload --port 8001`
 - 404 on `/api/predict`: verify routes with `php artisan route:list`.
 - CORS issues: `backend/config/cors.php` allows `http://localhost:5173` by default.
 - Large camera images: backend allows up to ~20 MB per image—reduce resolution if needed.
+
+## Docker
+
+`docker-compose.yml` provided. To run:
+```bash
+docker compose up --build
+```
+Services:
+- ML (8001), Backend (8000), Frontend (5173)
 
 ## Roadmap
 
