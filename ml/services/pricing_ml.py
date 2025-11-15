@@ -1,3 +1,10 @@
+"""
+ML pricing utilities.
+
+- load_price_model(): loads a persisted scikit-learn regressor (joblib payload).
+- predict_price_usd_from_detection(): maps detection + context to features and predicts USD.
+Place the trained model at ml/models/price_gbm.pkl (created by ml/train_price_gbm.py).
+"""
 from __future__ import annotations
 
 import os

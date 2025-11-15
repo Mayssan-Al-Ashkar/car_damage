@@ -1,3 +1,15 @@
+"""
+Feature engineering for pricing ML model.
+
+compute_features() converts detection output + context into a fixed-length vector:
+  - counts and area stats (sum/mean/max/std)
+  - confidence stats
+  - image geometry
+  - per-severity aggregates (minor/moderate/severe)
+  - rule baseline price
+  - vehicle-type one-hot
+These features are used by the gradient-boosted regressor.
+"""
 from __future__ import annotations
 
 from typing import Dict, List, Optional, Tuple

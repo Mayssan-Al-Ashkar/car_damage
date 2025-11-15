@@ -1,3 +1,15 @@
+"""
+FastAPI service for damage detection and pricing.
+
+Endpoints:
+- POST /predict  : run YOLO on a single image and return detections + pricing.
+- POST /compare  : run YOLO on before/after, compute deltas, and price new damage.
+
+Pricing modes (env):
+- PRICE_PROVIDER = rule | ml | hybrid
+- PRICE_BLEND_ALPHA for hybrid blending
+The response contains both the rule totals and a 'price' block with the chosen total.
+"""
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import JSONResponse
 import numpy as np

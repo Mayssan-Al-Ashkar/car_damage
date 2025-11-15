@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * ClaimController
+ *
+ * Read-only endpoints for listing and retrieving claims.
+ * Supports optional filtering by 'type' and can be extended to filter by 'visitor'.
+ */
 namespace App\Http\Controllers;
 
 use App\Models\Claim;

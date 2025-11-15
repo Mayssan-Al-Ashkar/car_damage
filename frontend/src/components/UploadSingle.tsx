@@ -1,3 +1,9 @@
+/**
+ * Single-image flow:
+ * - Choose vehicle type + image (or capture from camera)
+ * - Calls /predict and displays detections and pricing
+ * - Allows exporting a simple PDF-style report
+ */
 import { useEffect, useState } from 'react';
 import { predict } from '../api/client';
 import type { PredictResponse, Totals } from '../api/client';

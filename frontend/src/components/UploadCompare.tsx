@@ -1,3 +1,9 @@
+/**
+ * Before/After comparison flow:
+ * - Upload/capture pick-up (before) and return (after) images
+ * - Computes new damage (counts and costs) and shows annotated images
+ * - Exports a printable report with summary and totals
+ */
 import { useEffect, useState } from 'react';
 import { compare } from '../api/client';
 import type { CompareResponse, Totals } from '../api/client';

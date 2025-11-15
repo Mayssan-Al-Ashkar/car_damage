@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * DamageController
+ *
+ * Accepts image uploads for single or compare flows, forwards them to the ML service,
+ * persists resulting claims (including URLs to original/annotated images), and returns
+ * the ML payload plus claim_id. Supports an optional visitor_id to scope claims per session.
+ */
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;

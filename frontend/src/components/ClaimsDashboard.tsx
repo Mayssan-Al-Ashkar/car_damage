@@ -1,3 +1,9 @@
+/**
+ * Simple claims dashboard:
+ * - Fetches recent claims from Laravel backend
+ * - Displays type, vehicle, total, and created time
+ * Extend with filters and claim detail views as needed.
+ */
 import { useEffect, useState } from 'react';
 
 type Claim = {

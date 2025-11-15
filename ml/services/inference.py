@@ -1,3 +1,15 @@
+"""
+Detection + rule/area-based pricing helpers.
+
+- load_model(): loads Ultralytics YOLO once.
+- detect_from_numpy(): runs detection and returns classes, confidences, areas, and an annotated image.
+- aggregate_costs_for_classes(): computes totals from severity names using pricing rules, with optional
+  area-based scaling and vehicle-type specific rules.
+- compare_before_after(): runs detection on both images and summarizes new damages.
+
+Environment knobs (rule pricing):
+AREA_REF, AREA_MIN_SCALE, AREA_MAX_SCALE, AREA_GAMMA, COST_MULTIPLIER
+"""
 from __future__ import annotations
 
 from functools import lru_cache
